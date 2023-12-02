@@ -1,0 +1,298 @@
+﻿<Window x:Class="printTester.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:printTester"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <Style x:Key="labelStyle" TargetType="Label">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5 0 5 0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FFEAEAEA"/>
+        </Style>
+        <ControlTemplate x:Key="LabelTemplate" TargetType="{x:Type Label}">
+            <Border Background="{TemplateBinding Background}" CornerRadius="3" BorderBrush="Black" BorderThickness="1" Padding="0" SnapsToDevicePixels="true">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="false">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="250"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10 10 0 0">
+            <Label Content="0" x:Name="correctCharactersCount" Foreground="Green"/>
+            <Label Content="0" x:Name="totalCharactersCount" Foreground="Gray"/>
+        </StackPanel>
+        <Grid>
+            <ScrollViewer x:Name="scroll"  VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                <StackPanel x:Name="characterTrack" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20 0 0 0" VerticalAlignment="Center">
+                </StackPanel>
+            </ScrollViewer>
+            <Label x:Name="waitLabel" Visibility="Collapsed" Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="54" FontWeight="Bold">
+
+            </Label>
+            <TextBox x:Name="box" Background="Transparent" Opacity="0">
+
+            </TextBox>
+        </Grid>
+        <Grid VerticalAlignment="Top"  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="2">
+                    <Label x:Name="MaxSpeed1" Content="-" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <Label Content="0" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                </Grid>
+                <Canvas x:Name="canvas" Grid.Column="1">
+
+                </Canvas>
+                <Grid>
+                    <Label x:Name="MaxSpeed2" Content="-" VerticalAlignment="Top"  HorizontalAlignment="Center"/>
+                    <Label Content="0" VerticalAlignment="Bottom"  HorizontalAlignment="Center"/>
+                </Grid>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <StackPanel>
+                    <Label Content="Таймер:"></Label>
+                    <StackPanel  Orientation="Horizontal" >
+                        <Label Content="00" x:Name="minutesLabel" FontSize="16" FontWeight="Bold">
+
+                        </Label>
+                        <Label Content=":" FontSize="16" FontWeight="Bold">
+
+                        </Label>
+                        <Label Content="00" x:Name="secondsLabel" FontSize="16" FontWeight="Bold">
+
+                        </Label>
+                        <Label Content=":" FontSize="16" FontWeight="Bold">
+
+                        </Label>
+                        <Label Content="00" x:Name="millisecondsLabel" FontSize="16" FontWeight="Bold">
+
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="10 0 0 0">
+                    <Label Content="Последний результат:"></Label>
+                    <Grid>
+                        <Label x:Name="resultSpeed" HorizontalAlignment="Left"  Content="0,0"></Label>
+                        <Label x:Name="resultAccuracy" HorizontalAlignment="Right"  Content="0%"></Label>
+                    </Grid>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="2" Margin="0,5,0,0">
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="700"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="btn1" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="1"/>
+                        <Label x:Name="btn2" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="2"/>
+                        <Label x:Name="btn3" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="3"/>
+                        <Label x:Name="btn4" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="4"/>
+                        <Label x:Name="btn5" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="5"/>
+                        <Label x:Name="btn6" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="6"/>
+                        <Label x:Name="btn7" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="7"/>
+                        <Label x:Name="btn8" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="8"/>
+                        <Label x:Name="btn9" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="9"/>
+                        <Label x:Name="btn0" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="0"/>
+                        <Label x:Name="btnTire" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="-"/>
+                        <Label x:Name="btnEqual" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="="/>
+                        <Label x:Name="btnBackSlash" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="\"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="btnQ" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="Q"/>
+                        <Label x:Name="btnW" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="W"/>
+                        <Label x:Name="btnE" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="E"/>
+                        <Label x:Name="btnR" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="R"/>
+                        <Label x:Name="btnT" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="T"/>
+                        <Label x:Name="btnY" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="Y"/>
+                        <Label x:Name="btnU" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="U"/>
+                        <Label x:Name="btnI" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="I"/>
+                        <Label x:Name="btnO" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="O"/>
+                        <Label x:Name="btnP" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="P"/>
+                        <Label x:Name="btn_" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="["/>
+                        <Label x:Name="btn_1" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="]"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="btnA" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="A"/>
+                        <Label x:Name="btnS" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="S"/>
+                        <Label x:Name="btnD" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="D"/>
+                        <Label x:Name="btnF" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="F"/>
+                        <Label x:Name="btnG" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="G"/>
+                        <Label x:Name="btnH" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="H"/>
+                        <Label x:Name="btnJ" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="J"/>
+                        <Label x:Name="btnK" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="K"/>
+                        <Label x:Name="btnL" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="L"/>
+                        <Label x:Name="btn_2" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content=";"/>
+                        <Label x:Name="btn_3" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="'"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label x:Name="btnZ" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="Z"/>
+                        <Label x:Name="btnX" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="X"/>
+                        <Label x:Name="btnC" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="C"/>
+                        <Label x:Name="btnV" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="V"/>
+                        <Label x:Name="btnB" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="B"/>
+                        <Label x:Name="btnN" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="N"/>
+                        <Label x:Name="btnM" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="M"/>
+                        <Label x:Name="btn_4" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content=","/>
+                        <Label x:Name="btn_5" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="."/>
+                        <Label x:Name="btnSlash" Style="{DynamicResource labelStyle}" 
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="/"/>
+                    </StackPanel>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="1" Height="30" VerticalAlignment="Center">
+                            <Label x:Name="btnSpace" Background="#FFEAEAEA" FontSize="18" FontWeight="Bold"
+                                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                               Template="{DynamicResource LabelTemplate}" 
+                               Content="SPACE"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0 10 10">
+            <Button Width="100" Margin="0 0 0 10"   Content="Настройки" Click="Button_Click_1">
+
+            </Button>
+            <Button Width="100"   Content="Старт" Click="Button_Click">
+
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</Window>

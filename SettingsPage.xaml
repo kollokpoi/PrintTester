@@ -1,0 +1,30 @@
+﻿<Window x:Class="printTester.SettingsPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:printTester"
+        mc:Ignorable="d"
+        Title="SettingsPage" MaxHeight="200" MaxWidth="200">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" Margin="10 20">
+            <StackPanel  VerticalAlignment="Top">
+                <Label Content="Продолжительность игры:"></Label>
+                <ComboBox x:Name="timeCombo" SelectionChanged="timeCombo_SelectionChanged" >
+                    <ComboBoxItem Selector.IsSelected="True">минута</ComboBoxItem>
+                    <ComboBoxItem >3 минуты</ComboBoxItem>
+                    <ComboBoxItem >5 минуты</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel VerticalAlignment="Top" Margin="0 20 0 0">
+                <Label Content="Язык:"></Label>
+                <ComboBox x:Name="languageCombo"  SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem Selector.IsSelected="True">Русский</ComboBoxItem>
+                    <ComboBoxItem >Английский</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>
